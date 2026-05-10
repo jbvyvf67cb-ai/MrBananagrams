@@ -1,0 +1,98 @@
+name: Build manifest & deploy to Pages
+
+# Runs on push to main. Two jobs:
+#   1. build-manifest: rebuilds games.json from games/*/game.json
+#      and commits if it changed (so manifest stays in sync with sources).
+#   2. deploy: publishes the whole repo as a GitHub Pages site.
+#
+# To enable: in your GitHub repo go to Settings → Pages, set
+# Source = "GitHub Actions". The first run will deploy automatically.
+
+on:
+  push:
+    branches: [main]
+  # Allow manual trigger from the Actions tab
+  workflow_dispatch:
+
+permissions:
+  contents: write   # for the build-manifest job to push games.json
+  pages: write
+  id-token: write
+
+# Only one Pages deploy at a time
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  # ----------------------------------------------------------
+  # Rebuild games.json from games/*/game.json files.
+  # Commits the result back to main only if it changed.
+  # ----------------------------------------------------------
+  build-manifest:
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.diff.outputs.changed }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # use a token with write permissions so we can push back
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Build manifest
+        run: node scripts/build-manifest.js
+
+      - name: Detect changes
+        id: diff
+        run: |
+          if git diff --quiet games.json; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "games.json unchanged."
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "games.json changed:"
+            git --no-pager diff games.json
+          fi
+
+      - name: Commit updated manifest
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add games.json
+          git commit -m "chore: rebuild games.json [skip ci]"
+          git push
+
+  # ----------------------------------------------------------
+  # Publish the site (the whole repo) to GitHub Pages.
+  # ----------------------------------------------------------
+  deploy:
+    needs: build-manifest
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout (post-manifest)
+        uses: actions/checkout@v4
+        with:
+          # If the manifest job committed, get the new commit
+          ref: main
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload site artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
