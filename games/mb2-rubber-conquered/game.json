@@ -1,0 +1,15 @@
+{
+  "id": "mb2-rubber-conquered",
+  "title": "Mr. Bananagrams 2",
+  "subtitle": "How Rubber Conquered the World",
+  "tagline": "A top-down adventure: explore chapters of the rubber boom, talk to NPCs, gather notebook entries.",
+  "entry": "index.html",
+  "order": 20,
+  "themeColor": "#c0392b",
+  "accentColor": "#f4d870",
+  "engine": "phaser-adventure",
+  "ageRange": "8+",
+  "subjects": ["history", "world cultures", "exploration"],
+  "status": "coming",
+  "comingMessage": "Mr. Bananagrams 2 is being ported to a new top-down adventure engine. Check back soon!"
+}

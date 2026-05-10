@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Mr. Bananagrams Arcade</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Ribeye+Marrow&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/arcade.css">
+</head>
+<body>
+
+<div class="grain"></div>
+
+<header class="arcade-header">
+  <div class="header-row">
+    <div class="banana-mark" aria-hidden="true">
+      <span class="b-banana">🍌</span>
+    </div>
+    <div class="header-text">
+      <div class="eyebrow">A growing collection of educational adventures</div>
+      <h1 class="masthead">Mr. Bananagrams<br><span class="masthead-amp">·</span> Arcade <span class="masthead-amp">·</span></h1>
+      <p class="dek">
+        Pick a journey. Each game is a self-contained world built around a real
+        subject &mdash; history, poetry, science. Run, jump, learn, beat the boss.
+      </p>
+    </div>
+  </div>
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track">
+      <span>· press start ·</span><span>· save the rubber tree ·</span>
+      <span>· write a poem with a bramble sentinel ·</span>
+      <span>· feed the curiosity cabinet ·</span><span>· press start ·</span>
+      <span>· save the rubber tree ·</span>
+      <span>· write a poem with a bramble sentinel ·</span>
+      <span>· feed the curiosity cabinet ·</span>
+    </div>
+  </div>
+</header>
+
+<main class="arcade-main">
+  <section id="game-grid" class="game-grid" aria-label="Available games">
+    <!-- Cards rendered by JS from games.json -->
+    <div class="grid-loading">Loading the cabinet&hellip;</div>
+  </section>
+
+  <section class="empty-state hidden" id="empty-state">
+    <h2>The cabinet is empty.</h2>
+    <p>Drop a game folder into <code>games/</code> and add an entry to <code>games.json</code>.</p>
+    <p class="empty-hint">Or run <code>node scripts/build-manifest.js</code> to auto-generate the manifest from <code>game.json</code> files in each game folder.</p>
+  </section>
+</main>
+
+<footer class="arcade-footer">
+  <div class="footer-line">
+    <span class="footer-glyph">◆</span>
+    More games coming. Each cabinet hand-built for a subject worth learning.
+    <span class="footer-glyph">◆</span>
+  </div>
+  <div class="footer-meta">
+    <a href="README.md">How to add a game</a>
+    <span class="footer-sep">·</span>
+    <a href="https://github.com" rel="noopener">Source</a>
+  </div>
+</footer>
+
+<!-- Lightbox / coming-soon dialog (used for non-shipped games marked status:'coming') -->
+<div id="coming-soon" class="cs-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="cs-title">
+  <div class="cs-card">
+    <div class="cs-eyebrow">Coming Soon</div>
+    <h2 id="cs-title">In Development</h2>
+    <p id="cs-body">This cabinet hasn't shipped yet. Check back soon.</p>
+    <button id="cs-close" type="button" class="cs-btn">Got it</button>
+  </div>
+</div>
+
+<script src="launcher.js"></script>
+</body>
+</html>

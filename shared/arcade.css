@@ -1,0 +1,458 @@
+/* ============================================================
+   MR. BANANAGRAMS ARCADE — LAUNCHER
+   Aesthetic: natural-history museum × arcade cabinet
+   - Deep forest greens & parchment golds
+   - Display: Bungee (chunky/arcade); body: Crimson Pro (museum)
+   - Subtle paper grain + light asymmetry
+   ============================================================ */
+
+:root {
+  --bg-deep:        #0d1810;
+  --bg-mid:         #18271c;
+  --bg-card:        #1f2e22;
+  --bg-card-hover:  #283a2c;
+  --paper:          #f4ead2;
+  --paper-dim:      #d4c89e;
+  --gold:           #c9a23a;
+  --gold-bright:    #f4d870;
+  --jungle:         #7fb069;
+  --jungle-deep:    #4a6a3a;
+  --rust:           #c0392b;
+  --ink:            #1a1a1a;
+  --line:           #4a5a3a;
+
+  --font-display: 'Bungee', 'Ribeye Marrow', system-ui, sans-serif;
+  --font-script:  'Ribeye Marrow', 'Bungee', cursive;
+  --font-body:    'Crimson Pro', Georgia, serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--bg-deep);
+  color: var(--paper);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.55;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Page-wide layered background: forest gradient + radial spotlight */
+body {
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(127,176,105,0.16) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 110%, rgba(201,162,58,0.10) 0%, transparent 60%),
+    linear-gradient(180deg, #0a1108 0%, #0d1810 40%, #14201a 100%);
+  background-attachment: fixed;
+}
+
+/* Paper grain over everything (very subtle) */
+.grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.06;
+  mix-blend-mode: overlay;
+  background-image:
+    radial-gradient(rgba(255,255,255,0.6) 1px, transparent 1px),
+    radial-gradient(rgba(0,0,0,0.5)   1px, transparent 1px);
+  background-size: 3px 3px, 5px 5px;
+  background-position: 0 0, 1px 1px;
+}
+
+a { color: inherit; }
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.arcade-header {
+  position: relative;
+  z-index: 2;
+  padding: 56px 32px 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 24px;
+  align-items: end;
+}
+
+.banana-mark {
+  font-size: 96px;
+  line-height: 1;
+  filter: drop-shadow(0 6px 18px rgba(244,216,112,0.35));
+  transform: rotate(-12deg);
+  animation: gentle-sway 4.5s ease-in-out infinite;
+}
+.b-banana { display: inline-block; }
+
+@keyframes gentle-sway {
+  0%, 100% { transform: rotate(-12deg) translateY(0); }
+  50%      { transform: rotate(-8deg)  translateY(-6px); }
+}
+
+.eyebrow {
+  font-family: var(--font-display);
+  font-size: 11px;
+  letter-spacing: 0.32em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  opacity: 0.85;
+}
+
+.masthead {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 7vw, 76px);
+  line-height: 0.92;
+  color: var(--paper);
+  letter-spacing: 0.01em;
+  margin-bottom: 14px;
+  text-shadow: 0 4px 0 rgba(0,0,0,0.45), 0 0 30px rgba(244,216,112,0.18);
+}
+.masthead-amp {
+  color: var(--gold);
+  font-family: var(--font-script);
+  font-size: 0.7em;
+  vertical-align: middle;
+  margin: 0 0.1em;
+  opacity: 0.9;
+}
+
+.dek {
+  font-family: var(--font-body);
+  font-size: 18px;
+  font-style: italic;
+  color: var(--paper-dim);
+  max-width: 560px;
+}
+
+/* Ticker — arcade-marquee feel */
+.ticker {
+  margin-top: 28px;
+  border-top: 2px dashed var(--jungle-deep);
+  border-bottom: 2px dashed var(--jungle-deep);
+  padding: 10px 0;
+  overflow: hidden;
+  white-space: nowrap;
+  background: rgba(0,0,0,0.25);
+}
+.ticker-track {
+  display: inline-block;
+  animation: ticker-slide 36s linear infinite;
+  font-family: var(--font-display);
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+.ticker-track span { padding: 0 28px; }
+@keyframes ticker-slide {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ============================================================
+   GAME GRID — the heart of the launcher
+   ============================================================ */
+.arcade-main {
+  position: relative;
+  z-index: 2;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 32px 64px;
+}
+
+.game-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+.grid-loading {
+  grid-column: 1 / -1;
+  text-align: center;
+  font-style: italic;
+  color: var(--paper-dim);
+  padding: 80px 20px;
+}
+
+/* CARD: each game is a museum-display-card-meets-arcade-cabinet.
+   Uses --card-color (set inline from game.json themeColor) and
+   --card-accent (from accentColor). */
+.game-card {
+  --card-color:  var(--jungle);
+  --card-accent: var(--gold);
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-card);
+  border: 2px solid var(--line);
+  border-radius: 4px;
+  padding: 0;
+  overflow: hidden;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.18s ease, border-color 0.18s, box-shadow 0.18s;
+  box-shadow: 0 6px 0 rgba(0,0,0,0.35), 0 14px 28px rgba(0,0,0,0.3);
+  min-height: 320px;
+}
+.game-card::before {
+  /* Top stripe in the card's color — like a museum placard band */
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 6px;
+  background: var(--card-color);
+}
+.game-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--card-color);
+  box-shadow: 0 10px 0 rgba(0,0,0,0.45), 0 18px 40px rgba(0,0,0,0.45),
+              0 0 0 1px var(--card-color) inset;
+}
+.game-card:hover .card-num { color: var(--card-accent); }
+.game-card:active { transform: translateY(-1px); }
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 22px 22px 6px;
+}
+
+.card-num {
+  font-family: var(--font-display);
+  font-size: 14px;
+  letter-spacing: 0.2em;
+  color: var(--paper-dim);
+  transition: color 0.18s;
+}
+
+.card-pill {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 12px;
+  border: 1px solid var(--card-color);
+  color: var(--card-color);
+  background: rgba(0,0,0,0.25);
+}
+.card-pill.coming {
+  border-color: var(--rust);
+  color: var(--rust);
+}
+
+.card-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  line-height: 1.05;
+  padding: 6px 22px 0;
+  color: var(--paper);
+}
+
+.card-subtitle {
+  font-family: var(--font-script);
+  font-size: 22px;
+  line-height: 1.1;
+  padding: 8px 22px 0;
+  color: var(--card-color);
+  font-style: italic;
+}
+
+.card-tagline {
+  padding: 14px 22px 16px;
+  font-family: var(--font-body);
+  font-size: 16px;
+  color: var(--paper-dim);
+  flex-grow: 1;
+}
+
+.card-meta {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 0 22px 14px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--paper-dim);
+}
+.card-meta-item::before {
+  content: '·';
+  margin-right: 8px;
+  color: var(--card-accent);
+}
+.card-meta-item:first-child::before { content: ''; margin: 0; }
+
+.card-cta {
+  font-family: var(--font-display);
+  font-size: 12px;
+  letter-spacing: 0.25em;
+  padding: 16px 22px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.0), rgba(0,0,0,0.35));
+  border-top: 1px solid var(--line);
+  color: var(--paper);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.card-cta-arrow {
+  color: var(--card-color);
+  font-size: 18px;
+  transition: transform 0.2s;
+}
+.game-card:hover .card-cta-arrow { transform: translateX(4px); }
+
+/* For "coming soon" cards: dim, no hover lift, link disabled */
+.game-card.coming {
+  cursor: pointer;
+  opacity: 0.78;
+}
+.game-card.coming:hover {
+  transform: none;
+  box-shadow: 0 6px 0 rgba(0,0,0,0.35), 0 14px 28px rgba(0,0,0,0.3);
+}
+
+/* ============================================================
+   EMPTY STATE
+   ============================================================ */
+.empty-state {
+  text-align: center;
+  padding: 80px 20px;
+  color: var(--paper-dim);
+  font-style: italic;
+}
+.empty-state.hidden { display: none; }
+.empty-state h2 {
+  font-family: var(--font-display);
+  font-size: 28px;
+  color: var(--paper);
+  margin-bottom: 12px;
+}
+.empty-state code {
+  font-family: ui-monospace, SFMono-Regular, monospace;
+  background: rgba(0,0,0,0.4);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  padding: 2px 6px;
+  color: var(--gold-bright);
+  font-size: 14px;
+}
+.empty-hint { margin-top: 14px; font-size: 14px; opacity: 0.85; }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.arcade-footer {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 32px 20px 56px;
+  border-top: 2px dashed var(--jungle-deep);
+  margin: 32px 32px 0;
+  max-width: 1200px;
+  margin-inline: auto;
+  color: var(--paper-dim);
+}
+.footer-line {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 16px;
+  margin-bottom: 12px;
+}
+.footer-glyph { color: var(--gold); margin: 0 12px; }
+.footer-meta {
+  font-family: var(--font-display);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+.footer-meta a {
+  color: var(--gold);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--gold);
+  padding-bottom: 1px;
+}
+.footer-meta a:hover { color: var(--gold-bright); border-bottom-style: solid; }
+.footer-sep { margin: 0 14px; color: var(--jungle-deep); }
+
+/* ============================================================
+   COMING-SOON LIGHTBOX
+   ============================================================ */
+.cs-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(5, 12, 8, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  backdrop-filter: blur(6px);
+}
+.cs-overlay.hidden { display: none; }
+.cs-card {
+  background: var(--bg-card);
+  border: 2px solid var(--gold);
+  border-radius: 4px;
+  padding: 32px;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 12px 0 rgba(0,0,0,0.4), 0 24px 60px rgba(0,0,0,0.6);
+}
+.cs-eyebrow {
+  font-family: var(--font-display);
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  color: var(--rust);
+  margin-bottom: 8px;
+}
+.cs-card h2 {
+  font-family: var(--font-display);
+  font-size: 26px;
+  margin-bottom: 12px;
+  color: var(--paper);
+}
+.cs-card p {
+  margin-bottom: 22px;
+  color: var(--paper-dim);
+}
+.cs-btn {
+  font-family: var(--font-display);
+  font-size: 13px;
+  letter-spacing: 0.25em;
+  padding: 12px 28px;
+  background: var(--jungle-deep);
+  border: 2px solid var(--jungle);
+  color: var(--paper);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.08s;
+}
+.cs-btn:hover { background: var(--jungle); }
+.cs-btn:active { transform: scale(0.96); }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 600px) {
+  .arcade-header { padding: 32px 20px 16px; }
+  .header-row { grid-template-columns: 1fr; gap: 12px; }
+  .banana-mark { font-size: 72px; transform: rotate(-8deg); }
+  .arcade-main { padding: 16px 20px 40px; }
+  .game-grid { grid-template-columns: 1fr; gap: 16px; }
+  .arcade-footer { margin: 20px 16px 0; padding: 24px 12px 40px; }
+}
+
+.hidden { display: none !important; }

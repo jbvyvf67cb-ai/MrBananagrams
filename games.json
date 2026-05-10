@@ -1,0 +1,57 @@
+[
+  {
+    "id": "mb1-rubber-adventure",
+    "title": "Mr. Bananagrams 1",
+    "subtitle": "The Bouncing Story of Rubber",
+    "tagline": "Run, jump, and bounce your way through 3,500 years of rubber's history — from the Olmec to today.",
+    "entry": "index.html",
+    "order": 10,
+    "themeColor": "#7fb069",
+    "accentColor": "#c9a23a",
+    "engine": "phaser-platformer",
+    "ageRange": "8+",
+    "subjects": [
+      "history",
+      "chemistry",
+      "world cultures"
+    ],
+    "status": "ready"
+  },
+  {
+    "id": "mb2-rubber-conquered",
+    "title": "Mr. Bananagrams 2",
+    "subtitle": "How Rubber Conquered the World",
+    "tagline": "A top-down adventure: explore chapters of the rubber boom, talk to NPCs, gather notebook entries.",
+    "entry": "index.html",
+    "order": 20,
+    "themeColor": "#c0392b",
+    "accentColor": "#f4d870",
+    "engine": "phaser-adventure",
+    "ageRange": "8+",
+    "subjects": [
+      "history",
+      "world cultures",
+      "exploration"
+    ],
+    "status": "coming",
+    "comingMessage": "Mr. Bananagrams 2 is being ported to a new top-down adventure engine. Check back soon!"
+  },
+  {
+    "id": "mb3-golden-shovel",
+    "title": "Mr. Bananagrams 3",
+    "subtitle": "The Golden Shovel of Nature",
+    "tagline": "Build a Yeats poem, one word at a time, in a forest of bosses.",
+    "entry": "index.html",
+    "order": 30,
+    "themeColor": "#d4a437",
+    "accentColor": "#6e8b3d",
+    "engine": "phaser-platformer",
+    "ageRange": "8+",
+    "subjects": [
+      "poetry",
+      "ecology",
+      "language arts"
+    ],
+    "status": "ready"
+  }
+]

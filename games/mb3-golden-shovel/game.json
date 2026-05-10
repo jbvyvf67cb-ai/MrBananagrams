@@ -1,0 +1,13 @@
+{
+  "id": "mb3-golden-shovel",
+  "title": "Mr. Bananagrams 3",
+  "subtitle": "The Golden Shovel of Nature",
+  "tagline": "Build a Yeats poem, one word at a time, in a forest of bosses.",
+  "entry": "index.html",
+  "order": 30,
+  "themeColor": "#d4a437",
+  "accentColor": "#6e8b3d",
+  "engine": "phaser-platformer",
+  "ageRange": "8+",
+  "subjects": ["poetry", "ecology", "language arts"]
+}
