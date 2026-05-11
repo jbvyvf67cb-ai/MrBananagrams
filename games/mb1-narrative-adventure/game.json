@@ -1,0 +1,13 @@
+{
+  "id": "mb1-narrative-adventure",
+  "title": "Mr. Bananagrams 1",
+  "subtitle": "Narrative Adventure",
+  "tagline": "Build a story stanza by stanza — compose, tag, and publish your own poem as you adventure.",
+  "entry": "index.html",
+  "order": 10,
+  "themeColor": "#a78bfa",
+  "accentColor": "#f5d547",
+  "engine": "canvas-narrative",
+  "ageRange": "8+",
+  "subjects": ["poetry", "language arts", "storytelling"]
+}
