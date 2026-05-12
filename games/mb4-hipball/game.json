@@ -1,0 +1,18 @@
+{
+  "id": "mb4-hipball",
+  "title": "Mr. Bananagrams 4",
+  "subtitle": "Hipball",
+  "tagline": "Strike the rubber ball with hip, knee, or elbow. First to 8 rayas wins. Land it through the stone hoop for an instant victory.",
+  "entry": "index.html",
+  "order": 40,
+  "themeColor": "#d87434",
+  "accentColor": "#fde375",
+  "engine": "phaser-2.5d",
+  "ageRange": "8+",
+  "subjects": ["physical education", "mesoamerican history"],
+  "multiplayer": true,
+  "controls": {
+    "p1": "WASD + Space (jump) + J/K/L (hip/knee/elbow)",
+    "p2": "Numpad 4/5/6 + 0 + 1/2/3"
+  }
+}
