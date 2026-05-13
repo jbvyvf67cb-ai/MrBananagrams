@@ -456,3 +456,36 @@ a { color: inherit; }
 }
 
 .hidden { display: none !important; }
+
+/* ============================================================
+   BETA — beta games are hidden unless ?beta=1 in URL.
+   When visible, they wear a yellow BETA pill and a dashed border.
+   ============================================================ */
+
+/* The card-header is `justify-content: space-between` — wrapping the
+   pills in a span keeps them right-aligned together. */
+.card-pills {
+  display: inline-flex;
+  gap: 6px;
+  align-items: baseline;
+}
+
+/* BETA pill — yellow card with red text, matches the in-game badge. */
+.card-pill.beta {
+  background: var(--gold-bright);
+  color: var(--rust);
+  border-color: var(--ink);
+  font-weight: bold;
+  letter-spacing: 0.2em;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+  /* subtle tilt for retro arcade flavor */
+  transform: rotate(-3deg);
+}
+
+/* Subtle visual cue that a whole card is a beta tile. */
+.game-card.beta {
+  border-style: dashed;
+}
+.game-card.beta:hover {
+  border-style: solid;
+}
