@@ -1,0 +1,5 @@
+{
+  "name": "mb4-hipball",
+  "main": "server.ts",
+  "compatibilityDate": "2024-09-01"
+}
