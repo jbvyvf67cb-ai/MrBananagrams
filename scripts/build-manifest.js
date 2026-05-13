@@ -12,6 +12,8 @@
 //   - The folder name MUST match the manifest's "id" field.
 //   - Entries are sorted by `order` (low first), then alphabetically by title.
 //   - The `status` field defaults to "ready" if absent.
+//   - The `beta` flag, if true, is preserved in the output. The launcher
+//     hides beta games unless ?beta=1 is in the URL.
 //
 //  Hand-edits to games.json will be OVERWRITTEN by this script.
 //  If you want a hand-edit to persist, put it in the per-game game.json instead.
@@ -69,6 +71,10 @@ for (const dir of dirs) {
   // Default status
   if (!data.status) data.status = 'ready';
 
+  // Normalize beta to a boolean (or drop the key entirely if false/missing).
+  if (data.beta === true) data.beta = true;
+  else delete data.beta;
+
   // Verify entry file exists for "ready" games (warn for "coming")
   const entry = data.entry || 'index.html';
   const entryPath = path.join(GAMES_DIR, dir, entry);
@@ -97,5 +103,6 @@ fs.writeFileSync(OUT_FILE, json, 'utf8');
 console.log(`Wrote ${OUT_FILE}: ${entries.length} game(s).`);
 for (const e of entries) {
   const tag = e.status === 'coming' ? '[coming]' : '[ready] ';
-  console.log(`  ${tag} ${e.id.padEnd(28)} ${e.title}${e.subtitle ? ': ' + e.subtitle : ''}`);
+  const beta = e.beta ? ' [beta]' : '';
+  console.log(`  ${tag} ${e.id.padEnd(28)} ${e.title}${beta}${e.subtitle ? ': ' + e.subtitle : ''}`);
 }
