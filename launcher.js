@@ -19,6 +19,7 @@
 //      "ageRange": string,      // e.g. "8+"
 //      "subjects": string[],    // ["history", "poetry"]
 //      "status": "ready" | "coming"   // optional; defaults to "ready"
+//      "beta": boolean          // optional; if true, card is hidden unless ?beta=1 in URL
 //    }
 // ============================================================
 'use strict';
@@ -29,6 +30,9 @@ const CS_OVERLAY = document.getElementById('coming-soon');
 const CS_BODY = document.getElementById('cs-body');
 const CS_TITLE = document.getElementById('cs-title');
 const CS_CLOSE = document.getElementById('cs-close');
+
+// Beta-game gate: hidden unless ?beta=1 in the URL.
+const SHOW_BETA = new URLSearchParams(window.location.search).get('beta') === '1';
 
 CS_CLOSE.addEventListener('click', () => CS_OVERLAY.classList.add('hidden'));
 CS_OVERLAY.addEventListener('click', (e) => {
@@ -57,14 +61,17 @@ function pad2(n) { return String(n).padStart(2, '0'); }
 
 function renderCard(game, index) {
   const isComing = game.status === 'coming';
+  const isBeta = game.beta === true;
   const themeColor  = game.themeColor  || '#7fb069';
   const accentColor = game.accentColor || '#c9a23a';
   const url = `games/${encodeURIComponent(game.id)}/${game.entry || 'index.html'}`;
 
   const card = document.createElement(isComing ? 'div' : 'a');
-  card.className = 'game-card' + (isComing ? ' coming' : '');
+  card.className = 'game-card' + (isComing ? ' coming' : '') + (isBeta ? ' beta' : '');
   if (!isComing) {
-    card.href = url;
+    // Preserve ?beta=1 when navigating into a beta game so its own beta
+    // gates (if any) keep working. Harmless for non-beta games.
+    card.href = SHOW_BETA ? `${url}?beta=1` : url;
   } else {
     card.setAttribute('role', 'button');
     card.setAttribute('tabindex', '0');
@@ -90,7 +97,10 @@ function renderCard(game, index) {
   card.innerHTML = `
     <div class="card-header">
       <span class="card-num">CABINET ${pad2(index + 1)}</span>
-      <span class="card-pill ${isComing ? 'coming' : ''}">${isComing ? 'Coming Soon' : 'Ready'}</span>
+      <span class="card-pills">
+        ${isBeta ? '<span class="card-pill beta">BETA</span>' : ''}
+        <span class="card-pill ${isComing ? 'coming' : ''}">${isComing ? 'Coming Soon' : 'Ready'}</span>
+      </span>
     </div>
     <h2 class="card-title">${escapeHTML(game.title || 'Untitled')}</h2>
     ${game.subtitle ? `<div class="card-subtitle">${escapeHTML(game.subtitle)}</div>` : ''}
@@ -119,7 +129,16 @@ function renderGrid(games) {
     if (ao !== bo) return ao - bo;
     return String(a.title || '').localeCompare(String(b.title || ''));
   });
-  sorted.forEach((g, i) => GRID.appendChild(renderCard(g, i)));
+
+  // Filter out beta games unless ?beta=1 in URL.
+  const visible = sorted.filter(g => !g.beta || SHOW_BETA);
+  if (visible.length === 0) {
+    EMPTY.classList.remove('hidden');
+    GRID.style.display = 'none';
+    return;
+  }
+
+  visible.forEach((g, i) => GRID.appendChild(renderCard(g, i)));
 }
 
 function renderError(msg) {
