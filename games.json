@@ -70,6 +70,7 @@
       "mesoamerican history"
     ],
     "multiplayer": true,
+    "beta": true,
     "controls": {
       "p1": "WASD + Space (jump) + Z/X/C (hip/knee/elbow)",
       "p2": "Numpad 4/8/6/5 + 0 + 1/2/3"
