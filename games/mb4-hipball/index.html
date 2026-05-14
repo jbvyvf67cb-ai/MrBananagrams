@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <meta name="theme-color" content="#1a0820" />
+  <title>Mr. Bananagrams 4 — Hipball</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Cinzel:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <!-- Loading splash (hidden once Phaser game is constructed) -->
+  <div id="loading">
+    <div class="loading-glyph">HIPBALL</div>
+    <div class="loading-sub">stoking the brazier...</div>
+  </div>
+
+  <!-- Phaser game canvas mounts here -->
+  <div id="game-container"></div>
+
+  <!-- DOM overlay: title / mode select -->
+  <div id="overlay-title" class="overlay hidden">
+    <div class="card">
+      <h1 class="card-title">CHOOSE YOUR MATCH</h1>
+      <div class="card-section">
+        <h2 class="card-sub">Single player</h2>
+        <div class="btn-row">
+          <button class="btn btn-jade" id="btn-sp-easy">EASY</button>
+          <button class="btn btn-jade" id="btn-sp-normal">NORMAL</button>
+          <button class="btn btn-jade" id="btn-sp-hard">HARD</button>
+        </div>
+      </div>
+      <div class="card-section">
+        <h2 class="card-sub">Local 2-player</h2>
+        <div class="btn-row">
+          <button class="btn" id="btn-local">SAME KEYBOARD</button>
+        </div>
+        <p class="hint">P1: WASD + Space + Z/X/C &nbsp;·&nbsp; P2: Numpad 4/5/6 + 0 + 1/2/3</p>
+      </div>
+      <div class="card-section" id="mp-section">
+        <h2 class="card-sub">Online</h2>
+        <div class="btn-row">
+          <button class="btn btn-flame" id="btn-mp-host">HOST A ROOM</button>
+          <button class="btn btn-flame" id="btn-mp-join">JOIN A ROOM</button>
+        </div>
+        <p class="hint mp-disabled-note">⚠️ Configure <code>MB4.MP.PARTYKIT_HOST</code> in <code>js/main.js</code> to enable.</p>
+      </div>
+    </div>
+    <a id="back-to-arcade" href="../../index.html">&lsaquo; back to arcade</a>
+  </div>
+
+  <!-- DOM overlay: multiplayer lobby -->
+  <div id="overlay-mp" class="overlay hidden">
+    <div class="card">
+      <h1 class="card-title">ONLINE MATCH</h1>
+      <div class="card-section">
+        <p id="mp-code-label" class="card-sub">Your room code:</p>
+        <div id="mp-code-display" class="room-code"></div>
+        <input id="mp-code-input" class="room-input" maxlength="8" autocomplete="off"
+               placeholder="ROOM CODE" />
+      </div>
+      <p id="mp-status" class="mp-status"></p>
+      <div class="btn-row">
+        <button class="btn btn-flame" id="btn-mp-go">JOIN</button>
+        <button class="btn" id="btn-mp-back">BACK</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Touch controls (mobile / tablet) -->
+  <div id="touch-controls" class="hidden-on-desktop">
+    <div class="touch-pad-left">
+      <button class="touch-btn" id="btn-left">◀</button>
+      <button class="touch-btn" id="btn-right">▶</button>
+    </div>
+    <div class="touch-pad-right">
+      <button class="touch-btn touch-jump" id="btn-jump">JUMP</button>
+      <div class="touch-strikes">
+        <button class="touch-btn touch-hip"   id="btn-hip">HIP</button>
+        <button class="touch-btn touch-knee"  id="btn-knee">KNEE</button>
+        <button class="touch-btn touch-elbow" id="btn-elbow">ELBOW</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mute button -->
+  <button id="mute-btn" title="Mute">🔊</button>
+
+  <!-- Scripts (order matters: globals first, scenes, then main) -->
+  <script src="js/phaser.min.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/input.js"></script>
+  <script src="js/ai.js"></script>
+  <script src="js/net.js"></script>
+  <script src="js/math_tiles.js"></script>
+  <script src="js/scenes/BootScene.js"></script>
+  <script src="js/scenes/TitleScene.js"></script>
+  <script src="js/scenes/PlayScene.js"></script>
+  <script src="js/scenes/MatchOverScene.js"></script>
+  <script src="js/main.js"></script>
+
+  <script>
+    // Mute toggle
+    document.getElementById('mute-btn').addEventListener('click', (e) => {
+      const m = !Audio4.isMuted();
+      Audio4.setMuted(m);
+      e.currentTarget.textContent = m ? '🔇' : '🔊';
+    });
+
+    // Detect touch device → show touch controls
+    if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+      document.getElementById('touch-controls').classList.remove('hidden-on-desktop');
+    }
+  </script>
+</body>
+</html>
