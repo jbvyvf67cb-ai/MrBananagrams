@@ -10,9 +10,7 @@
 <link rel="stylesheet" href="shared/arcade.css">
 </head>
 <body>
-
 <div class="grain"></div>
-
 <header class="arcade-header">
   <div class="header-row">
     <div class="banana-mark" aria-hidden="true">
@@ -38,20 +36,49 @@
     </div>
   </div>
 </header>
-
 <main class="arcade-main">
   <section id="game-grid" class="game-grid" aria-label="Available games">
     <!-- Cards rendered by JS from games.json -->
     <div class="grid-loading">Loading the cabinet&hellip;</div>
   </section>
-
   <section class="empty-state hidden" id="empty-state">
     <h2>The cabinet is empty.</h2>
     <p>Drop a game folder into <code>games/</code> and add an entry to <code>games.json</code>.</p>
     <p class="empty-hint">Or run <code>node scripts/build-manifest.js</code> to auto-generate the manifest from <code>game.json</code> files in each game folder.</p>
   </section>
-</main>
 
+  <!-- Comments widget — anonymous notes from visitors -->
+  <section class="comments-widget" aria-labelledby="comments-heading">
+    <h2 id="comments-heading" class="comments-heading">
+      <span class="cw-glyph">◇</span> Drop a note <span class="cw-glyph">◇</span>
+    </h2>
+    <p class="comments-sub">Say hi, leave a thought, cheer on a game. No account needed.</p>
+    <form id="comments-form" class="comments-form" autocomplete="off">
+      <input
+        type="text"
+        id="comments-name"
+        class="cw-name"
+        placeholder="Your name (optional)"
+        maxlength="32"
+        aria-label="Your name (optional)"
+      >
+      <textarea
+        id="comments-text"
+        class="cw-text"
+        placeholder="Write something kind..."
+        maxlength="280"
+        rows="3"
+        required
+        aria-label="Your comment"
+      ></textarea>
+      <div class="cw-bottomrow">
+        <span id="comments-count" class="cw-count">0 / 280</span>
+        <span id="comments-status" class="cw-status" aria-live="polite"></span>
+        <button type="submit" class="cw-post">Post</button>
+      </div>
+    </form>
+  </section>
+</main>
 <footer class="arcade-footer">
   <div class="footer-line">
     <span class="footer-glyph">◆</span>
@@ -64,7 +91,6 @@
     <a href="https://github.com" rel="noopener">Source</a>
   </div>
 </footer>
-
 <!-- Lightbox / coming-soon dialog (used for non-shipped games marked status:'coming') -->
 <div id="coming-soon" class="cs-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="cs-title">
   <div class="cs-card">
@@ -74,6 +100,15 @@
     <button id="cs-close" type="button" class="cs-btn">Got it</button>
   </div>
 </div>
+
+<!-- Live comments ticker — scrolls along the bottom of the page -->
+<div id="comments-ticker" class="comments-ticker" aria-hidden="true">
+  <div class="ct-track" id="comments-ticker-track">
+    <span class="ct-empty">No comments yet — be the first to drop a note!</span>
+  </div>
+  <button id="comments-ticker-dismiss" class="ct-dismiss" aria-label="Hide comments ticker">✕</button>
+</div>
+<button id="comments-ticker-handle" class="ct-handle hidden" aria-label="Show comments ticker">💬 comments</button>
 
 <script src="launcher.js"></script>
 </body>

@@ -96,7 +96,7 @@ window.MB4 = {
 
   MP: {
     // Fill PARTYKIT_HOST after deploying the server, e.g. 'mb4-hipball.username.partykit.dev'
-    PARTYKIT_HOST: '',
+    PARTYKIT_HOST: 'mb4-hipball.jbvyvf67cb-ai.partykit.dev',
     TICK_HZ:      30,
     ROOM_CODE_LEN: 4,
   },

@@ -458,34 +458,195 @@ a { color: inherit; }
 .hidden { display: none !important; }
 
 /* ============================================================
-   BETA — beta games are hidden unless ?beta=1 in URL.
-   When visible, they wear a yellow BETA pill and a dashed border.
+   COMMENTS WIDGET — anonymous post box at bottom of landing page
    ============================================================ */
+.comments-widget {
+  position: relative;
+  z-index: 2;
+  max-width: 720px;
+  margin: 48px auto 80px;
+  padding: 32px 28px 28px;
+  background: linear-gradient(180deg,
+    rgba(31,46,34,0.6) 0%,
+    rgba(20,32,26,0.4) 100%);
+  border-radius: 8px;
+  border: 1px solid rgba(201,162,58,0.25);
+}
+.comments-heading {
+  font-family: var(--font-display);
+  font-size: 22px;
+  letter-spacing: 0.04em;
+  color: var(--gold-bright);
+  text-align: center;
+  margin-bottom: 6px;
+}
+.cw-glyph {
+  color: var(--jungle);
+  opacity: 0.7;
+  margin: 0 8px;
+}
+.comments-sub {
+  text-align: center;
+  font-size: 14px;
+  font-style: italic;
+  color: var(--paper-dim);
+  margin-bottom: 20px;
+}
+.comments-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.cw-name, .cw-text {
+  background: rgba(13,24,16,0.7);
+  border: 1px solid var(--line);
+  color: var(--paper);
+  font-family: var(--font-body);
+  font-size: 15px;
+  padding: 10px 12px;
+  border-radius: 4px;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+.cw-name:focus, .cw-text:focus {
+  border-color: var(--gold);
+}
+.cw-text {
+  resize: vertical;
+  min-height: 70px;
+  line-height: 1.45;
+  font-family: var(--font-body);
+}
+.cw-bottomrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.cw-count {
+  font-size: 12px;
+  color: var(--paper-dim);
+  font-family: monospace;
+}
+.cw-count.over { color: var(--rust); }
+.cw-status {
+  flex: 1;
+  font-size: 13px;
+  color: var(--paper-dim);
+  font-style: italic;
+}
+.cw-status.error { color: var(--rust); }
+.cw-status.success { color: var(--jungle); }
+.cw-post {
+  background: var(--gold);
+  color: var(--ink);
+  border: none;
+  font-family: var(--font-display);
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  padding: 10px 24px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.05s ease;
+}
+.cw-post:hover { background: var(--gold-bright); }
+.cw-post:active { transform: translateY(1px); }
+.cw-post:disabled {
+  background: var(--bg-card);
+  color: var(--paper-dim);
+  cursor: not-allowed;
+}
 
-/* The card-header is `justify-content: space-between` — wrapping the
-   pills in a span keeps them right-aligned together. */
-.card-pills {
+/* ============================================================
+   COMMENTS TICKER — scrolling strip at bottom of viewport
+   ============================================================ */
+.comments-ticker {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  height: 34px;
+  background: rgba(13,24,16,0.92);
+  border-top: 1px solid var(--gold);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  box-shadow: 0 -2px 12px rgba(0,0,0,0.4);
+}
+.ct-track {
   display: inline-flex;
-  gap: 6px;
-  align-items: baseline;
+  align-items: center;
+  gap: 32px;
+  white-space: nowrap;
+  padding-left: 100%;
+  animation: ct-scroll 90s linear infinite;
+}
+.comments-ticker:hover .ct-track {
+  animation-play-state: paused;
+}
+.ct-track .ct-comment { font-size: 13px; color: var(--paper); }
+.ct-track .ct-name {
+  color: var(--gold-bright);
+  font-weight: 600;
+  margin-right: 6px;
+}
+.ct-track .ct-sep { color: var(--jungle); opacity: 0.5; }
+.ct-track .ct-empty {
+  font-size: 13px;
+  color: var(--paper-dim);
+  font-style: italic;
+}
+.ct-dismiss {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--paper-dim);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  font-size: 12px;
+  cursor: pointer;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.ct-dismiss:hover {
+  color: var(--paper);
+  border-color: var(--gold);
+}
+.ct-handle {
+  position: fixed;
+  bottom: 12px;
+  right: 16px;
+  z-index: 50;
+  background: rgba(13,24,16,0.92);
+  color: var(--paper-dim);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  padding: 6px 12px;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.ct-handle:hover { color: var(--paper); border-color: var(--gold); }
+.ct-handle.hidden { display: none; }
+
+@keyframes ct-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-100%); }
 }
 
-/* BETA pill — yellow card with red text, matches the in-game badge. */
-.card-pill.beta {
-  background: var(--gold-bright);
-  color: var(--rust);
-  border-color: var(--ink);
-  font-weight: bold;
-  letter-spacing: 0.2em;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
-  /* subtle tilt for retro arcade flavor */
-  transform: rotate(-3deg);
-}
-
-/* Subtle visual cue that a whole card is a beta tile. */
-.game-card.beta {
-  border-style: dashed;
-}
-.game-card.beta:hover {
-  border-style: solid;
+/* Push the footer up so the ticker doesn't cover it */
+.arcade-footer {
+  padding-bottom: 60px !important;
 }
