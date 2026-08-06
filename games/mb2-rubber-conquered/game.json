@@ -7,9 +7,8 @@
   "order": 20,
   "themeColor": "#c0392b",
   "accentColor": "#f4d870",
-  "engine": "phaser-adventure",
+  "engine": "canvas-topdown",
   "ageRange": "8+",
   "subjects": ["history", "world cultures", "exploration"],
-  "status": "coming",
-  "comingMessage": "Mr. Bananagrams 2 is being ported to a new top-down adventure engine. Check back soon!"
+  "status": "ready"
 }

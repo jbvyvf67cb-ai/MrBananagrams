@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#1a1208">
+<title>Mr. Bananagrams 2: How Rubber Conquered the World</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div id="loading">Loading Mr. Bananagram...</div>
+
+<div id="game-container">
+  <canvas id="game" width="960" height="600"></canvas>
+</div>
+
+<!-- Back-to-arcade button -->
+<a id="back-to-arcade" href="../../index.html" aria-label="Back to Arcade" title="Back to Arcade">🏠</a>
+
+<div id="hud" class="hidden">
+  <div class="hud-block" id="hud-chapter">Chapter 1</div>
+  <div class="hud-block hud-hearts" id="hud-hp">♥♥♥</div>
+  <div class="hud-block hud-sparks" id="hud-sparks">✨ 0/2</div>
+  <div class="hud-block hud-score" id="hud-score">0 pts</div>
+  <div class="hud-block hud-btn" id="hud-notebook" role="button" tabindex="0" title="Open notebook">📓</div>
+</div>
+
+<div id="touch-controls" class="hidden">
+  <div class="dpad">
+    <div class="dpad-btn dpad-empty"></div>
+    <div class="dpad-btn dpad-up" data-key="up">▲</div>
+    <div class="dpad-btn dpad-empty"></div>
+    <div class="dpad-btn dpad-left" data-key="left">◀</div>
+    <div class="dpad-btn dpad-empty"></div>
+    <div class="dpad-btn dpad-right" data-key="right">▶</div>
+    <div class="dpad-btn dpad-empty"></div>
+    <div class="dpad-btn dpad-down" data-key="down">▼</div>
+    <div class="dpad-btn dpad-empty"></div>
+  </div>
+  <div class="actions">
+    <div class="action-btn interact" data-key="interact">TALK<br>READ</div>
+    <div class="action-btn throw" data-key="throw">THROW</div>
+  </div>
+</div>
+
+<!-- Title screen -->
+<div class="overlay" id="overlay-title">
+  <div class="overlay-card">
+    <div class="chapter-num">A TOP-DOWN ADVENTURE</div>
+    <h1>🍌 Mr. Bananagram 2</h1>
+    <h2 style="color:#d4b88a;font-size:16px;font-weight:normal;">in The Age of Exploration</h2>
+    <h2 style="color:#f4c842;margin-top:6px;">How Rubber Conquered the World</h2>
+    <div class="subtitle">A 9-chapter journey from an Olmec bog to the rubber plantations of Asia</div>
+    <p>3,000 years ago, the Olmec people of Mexico discovered how to turn tree sap into bouncing rubber. This is the story of how that idea traveled across continents, slept in libraries for centuries, and eventually circled the globe.</p>
+    <p>Walk Mr. Bananagram through history. Read the plaques. Talk to the people. Collect inspiration for your art project. Two ideas per chapter to move on.</p>
+    <div class="controls-info">
+      <b>Controls:</b><br>
+      Arrow keys / WASD — Move (up/down go forward/back, left/right rotate)<br>
+      Space / X — Throw banana peel<br>
+      E / Z — Talk to people, read plaques<br>
+      📓 button — Open your art project notebook<br>
+      <i>On phone: use the on-screen buttons.</i>
+    </div>
+    <button class="primary-btn" type="button" id="btn-begin-journey">Begin Journey</button>
+  </div>
+</div>
+
+<!-- Chapter intro -->
+<div class="overlay hidden" id="overlay-chapter-intro">
+  <div class="overlay-card">
+    <div class="chapter-num" id="ci-num">CHAPTER 1</div>
+    <h1 id="ci-title">Chapter Title</h1>
+    <div class="chapter-meta" id="ci-meta">Era · Location</div>
+    <div class="subtitle" id="ci-subtitle">Subtitle</div>
+    <p id="ci-intro">Intro text.</p>
+    <button class="primary-btn" type="button" id="btn-begin-chapter">Begin Chapter</button>
+  </div>
+</div>
+
+<!-- Info-stop overlay (combines NPC dialog + reading + questions) -->
+<div class="overlay hidden" id="overlay-infostop">
+  <div class="overlay-card">
+    <div class="chapter-num" id="is-source">A PLAQUE</div>
+    <h2 id="is-name">Source Name</h2>
+    <div class="passage" id="is-passage">Passage text.</div>
+    <div id="is-question-block" class="hidden">
+      <p id="is-question" style="font-weight:bold;color:#f4c842;"></p>
+      <div class="answers" id="is-answers"></div>
+      <div class="feedback hidden" id="is-feedback"></div>
+    </div>
+    <button class="primary-btn" type="button" id="is-continue">Read</button>
+  </div>
+</div>
+
+<!-- Boss conversation overlay -->
+<div class="overlay hidden" id="overlay-boss">
+  <div class="overlay-card">
+    <div class="chapter-num">BOSS · A CONVERSATION</div>
+    <h2 id="boss-name">Boss Name</h2>
+    <div class="subtitle" id="boss-role">Role</div>
+    <div class="passage" id="boss-intro">Boss says hello.</div>
+    <div id="boss-question-block" class="hidden">
+      <p id="boss-question" style="font-weight:bold;color:#f4c842;"></p>
+      <div class="answers" id="boss-answers"></div>
+      <div class="feedback hidden" id="boss-feedback"></div>
+    </div>
+    <button class="primary-btn" type="button" id="boss-continue">Continue</button>
+  </div>
+</div>
+
+<!-- Spark modal -->
+<div class="overlay hidden" id="spark-modal">
+  <div class="spark-card">
+    <div class="label">✨ INSPIRATION CAPTURED</div>
+    <div class="text" id="spark-text">Spark text.</div>
+    <div class="spark-actions">
+      <button class="primary-btn secondary" type="button" id="btn-spark-skip">Skip</button>
+      <button class="primary-btn" type="button" id="btn-spark-save">Save to Notebook</button>
+    </div>
+  </div>
+</div>
+
+<!-- Notebook overlay -->
+<div class="overlay hidden" id="notebook-overlay">
+  <div class="overlay-card">
+    <h1>📓 Art Project Notebook</h1>
+    <div class="subtitle" id="notebook-subtitle">Inspiration for your project on rubber and the Age of Exploration</div>
+    <div class="notebook-page" id="notebook-page-content">
+      <!-- Page content rendered dynamically -->
+    </div>
+    <div class="notebook-nav">
+      <button type="button" id="notebook-prev">← Prev</button>
+      <span class="page-indicator" id="notebook-pageno">Page 1 of 1</span>
+      <button type="button" id="notebook-next">Next →</button>
+    </div>
+    <div style="margin-top:12px; display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
+      <button class="primary-btn secondary" type="button" id="btn-notebook-back">Back to Game</button>
+      <button class="primary-btn" type="button" id="notebook-export-btn" style="display:none;">Export for Art Project</button>
+    </div>
+  </div>
+</div>
+
+<!-- World map overlay -->
+<div class="overlay hidden" id="worldmap-overlay">
+  <div class="overlay-card">
+    <h2 id="wm-title">The Journey So Far</h2>
+    <canvas id="worldmap-canvas" width="800" height="440"></canvas>
+    <div class="worldmap-info" id="wm-info">Tap the next pin to continue your journey.</div>
+    <div style="margin-top:10px; display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
+      <button class="primary-btn secondary" type="button" id="btn-wm-notebook">📓 Notebook</button>
+      <button class="primary-btn" type="button" id="wm-continue">Continue</button>
+    </div>
+  </div>
+</div>
+
+<!-- Game-over / chapter-fail -->
+<div class="overlay hidden" id="overlay-fail">
+  <div class="overlay-card">
+    <h1>🍌 Mr. Bananagram took a tumble!</h1>
+    <p id="fail-msg">You ran out of HP. Don't worry — your notebook is safe. Try this chapter again.</p>
+    <button class="primary-btn" type="button" id="btn-retry-chapter">Try Again</button>
+  </div>
+</div>
+
+<!-- Final victory / rank screen -->
+<div class="overlay hidden" id="overlay-victory">
+  <div class="overlay-card">
+    <div class="chapter-num">JOURNEY COMPLETE</div>
+    <h1>🌍 The world has been crossed.</h1>
+    <p>From an Olmec bog 3,500 years ago to plantations on the other side of the planet, you traced an idea across continents and centuries.</p>
+    <div class="rank-display">
+      <div class="rank-name" id="vic-rank">—</div>
+      <div class="rank-score" id="vic-score">0 points</div>
+    </div>
+    <p>Your notebook holds the inspiration you collected along the way. It's ready for your art project.</p>
+    <button class="primary-btn" type="button" id="btn-victory-notebook">📓 Open My Notebook</button>
+    <button class="primary-btn secondary" type="button" id="btn-victory-export">Export for Art Project</button>
+  </div>
+</div>
+
+<!-- The actual export view (printable, clean) -->
+<div class="overlay hidden" id="export-overlay" style="background:#f4e6c8; color:#2a1810;">
+  <div class="overlay-card" style="background:#fff; color:#2a1810; max-width:700px; border-color:#5a3a1a;">
+    <h1 style="color:#5a3a1a;">My Notebook</h1>
+    <div class="subtitle" style="color:#5a3a1a;">Inspiration for an art project on rubber in the Age of Exploration</div>
+    <div id="export-content" style="text-align:left; color:#2a1810;"></div>
+    <button class="primary-btn secondary" type="button" id="btn-export-close" style="margin-top:16px;">Back to Game</button>
+    <p style="margin-top:8px; font-size:11px; color:#7a5a3a; text-align:center;">Tip: take a screenshot or print this page.</p>
+  </div>
+</div>
+
+<!-- Game scripts (load order matters) -->
+<script src="js/config.js"></script>
+<script src="js/state.js"></script>
+<script src="js/util.js"></script>
+<script src="js/chapter1.js"></script>
+<script src="js/chapter2.js"></script>
+<script src="js/chapter3.js"></script>
+<script src="js/chapter4.js"></script>
+<script src="js/chapter5.js"></script>
+<script src="js/chapter6.js"></script>
+<script src="js/chapter7.js"></script>
+<script src="js/chapter8.js"></script>
+<script src="js/chapter9.js"></script>
+<script src="js/chapters.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/flow.js"></script>
+<script src="js/input.js"></script>
+<script src="js/worldmap.js"></script>
+<script src="js/infostop.js"></script>
+<script src="js/boss.js"></script>
+<script src="js/notebook.js"></script>
+<script src="js/update.js"></script>
+<script src="js/render.js"></script>
+<script src="js/main.js"></script>
+
+</body>
+</html>

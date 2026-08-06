@@ -13,9 +13,11 @@ mr-bananagrams-arcade/
 ├── games.json                        ← auto-generated manifest (DO NOT hand-edit)
 ├── shared/arcade.css                 ← launcher styles
 ├── games/
-│   ├── mb1-rubber-adventure/         ← MB1 (Phaser platformer)
-│   ├── mb2-rubber-conquered/         ← MB2 (placeholder — coming soon)
-│   └── mb3-golden-shovel/            ← MB3 (Phaser platformer)
+│   ├── mb1-narrative-adventure/      ← MB1 (canvas narrative)
+│   ├── mb2-rubber-conquered/         ← MB2 (canvas top-down adventure)
+│   ├── mb3-golden-shovel/            ← MB3 (Phaser platformer)
+│   ├── mb4-hipball/                  ← MB4 (Phaser 2.5D, multiplayer)
+│   └── mb4d-portal-world/            ← MB4D (Babylon.js 3D platformer)
 ├── scripts/build-manifest.js         ← scans games/ and writes games.json
 └── .github/workflows/build-manifest.yml
                                       ← rebuilds manifest + deploys on push
@@ -148,8 +150,9 @@ informational, not enforced.
 
 - `phaser-platformer` — side-scroll, gravity, throw projectiles, boss fights
   (MB1, MB3). See `games/mb3-golden-shovel/README.md` for engine notes.
-- `phaser-adventure` (planned, MB2) — top-down NPC-driven adventure with
-  notebooks, sparks, world map. To be implemented.
+- `canvas-topdown` (MB2) — top-down NPC-driven adventure with plaques,
+  sparks, an art-project notebook, and a world map between chapters. Plain
+  canvas 2D, no engine. See `games/mb2-rubber-conquered/README.md`.
 - `phaser-2.5d` (MB4) — Hipball: a rubber-ball court sport (see
   `games/mb4-hipball/`).
 - `babylon-3d` (MB4D) — 3D Super-Mario-64-style platformer where every object
