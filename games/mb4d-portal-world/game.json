@@ -1,0 +1,14 @@
+{
+  "id": "mb4d-portal-world",
+  "title": "Mr. Bananagrams 4D",
+  "subtitle": "Portal World",
+  "tagline": "A 3D platformer where everything has 40 sides. Beat the bosses and rescue trapped stray dogs — each tells its story and a real fact about strays.",
+  "entry": "index.html",
+  "order": 50,
+  "themeColor": "#9b6bff",
+  "accentColor": "#fde375",
+  "engine": "babylon-3d",
+  "ageRange": "8+",
+  "subjects": ["animal welfare", "geometry"],
+  "status": "ready"
+}

@@ -1,0 +1,15 @@
+{
+  "id": "mb4d-portal-world",
+  "title": "Mr. Bananagrams 4D",
+  "subtitle": "Portal World",
+  "tagline": "Mr Bananagrams jumps through a purple portal mid-Hipball and lands in a world where every object has at least 40 sides. A 3D platformer for stray-dog advocacy.",
+  "entry": "index.html",
+  "order": 50,
+  "themeColor": "#9b6bff",
+  "accentColor": "#fde375",
+  "engine": "babylon-3d",
+  "ageRange": "8+",
+  "subjects": ["animal welfare", "geometry"],
+  "status": "coming",
+  "comingMessage": "Mr. Bananagrams 4D is in early prototype — gameplay shakedown only."
+}

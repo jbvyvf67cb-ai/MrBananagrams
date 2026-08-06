@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#1a0820" />
+  <title>Mr. Bananagrams 4D</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      font-family: 'Trebuchet MS', 'Segoe UI', system-ui, sans-serif;
+      color: #fff4e6; padding: 6vh 20px 60px;
+      background: radial-gradient(circle at 50% 0%, #3a1a5c, #1a0820 70%);
+      text-align: center;
+    }
+    .kicker { color: #9b6bff; font-weight: 800; letter-spacing: 0.28em; font-size: 13px; }
+    h1 { font-size: clamp(34px, 8vw, 68px); margin: 6px 0 4px; color: #fde375; text-shadow: 0 4px 0 #6a3d00; }
+    .sub { font-size: clamp(15px, 2.4vw, 19px); opacity: 0.9; margin: 0 auto 8px; max-width: 640px; line-height: 1.5; }
+    .portal { font-size: 56px; margin: 10px 0 26px; }
+    .grid { display: flex; flex-wrap: wrap; gap: 22px; justify-content: center; max-width: 920px; margin: 0 auto; }
+    .game {
+      width: 340px; max-width: 100%; text-decoration: none; color: inherit;
+      background: rgba(26,8,32,0.7); border: 2px solid #9b6bff; border-radius: 18px;
+      padding: 22px 20px; text-align: left; transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+    }
+    .game:hover { transform: translateY(-4px); box-shadow: 0 10px 30px rgba(155,107,255,0.4); border-color: #fde375; }
+    .tag { display: inline-block; font-size: 11px; font-weight: 800; letter-spacing: 0.12em; padding: 3px 10px; border-radius: 999px; margin-bottom: 10px; }
+    .tag.new { background: #fde375; color: #2a1006; }
+    .tag.proto { background: rgba(155,107,255,0.35); color: #fff; border: 1px solid #9b6bff; }
+    .game h2 { margin: 4px 0 8px; font-size: 22px; color: #fde375; }
+    .game p { margin: 0; font-size: 14px; line-height: 1.5; opacity: 0.9; }
+    .play { display: inline-block; margin-top: 14px; font-weight: 800; color: #fde375; letter-spacing: 0.05em; }
+    footer { margin-top: 46px; font-size: 12px; opacity: 0.55; line-height: 1.6; }
+  </style>
+</head>
+<body>
+  <a id="back-to-arcade" href="../../index.html" title="Back to Arcade"
+     style="position:fixed;top:14px;left:16px;z-index:50;font-size:26px;text-decoration:none;opacity:0.85;">🏠</a>
+  <div class="kicker">PAPA VON BANANAGRAMAS × MR BANANAGRAMS PRESENT</div>
+  <h1>Mr. Bananagrams 4D</h1>
+  <p class="sub">A 3D platformer where everything has at least 40 sides. Jump through the
+    purple portal, fend off fiery fruit, beat the bosses, and rescue trapped stray dogs —
+    each one tells you its story and a real fact about strays.</p>
+  <div class="portal">🟣🍌🐕</div>
+
+  <div class="grid">
+    <a class="game" href="versions/v15/index.html">
+      <span class="tag new">v15 · NEWEST</span>
+      <h2>Levels 1–5 — Data15 rewrites Ford's fact</h2>
+      <p>Same build as v13 with Data15 applied: <strong>Ford's rescue-card fact</strong> is now a
+        longer Austin Pets Alive donation call-to-action, with a clickable <strong>donate link</strong>
+        right on the dog card. (v13's Data13 gameplay + Data14's 2-tries tightening for L4 still
+        apply.) Shipped at a new URL so cached copies of v13 don't mask the text update.</p>
+      <span class="play">▶ Play v15</span>
+    </a>
+
+    <a class="game" href="versions/v13/index.html">
+      <span class="tag proto">v13</span>
+      <h2>Levels 1–5 — Data13 wakes the Level 1 boss</h2>
+      <p>Data13 un-silences the <strong>Level 1</strong> boss: portalprotector is still a melee
+        bruiser at full health, but once his HP drops <strong>low enough for phase 2</strong> he starts
+        lobbing <strong>purple-pinkie balls</strong> at you on the 2D court. Over in <strong>Level 5</strong>'s
+        giant finale, MMB now <strong>stops shooting lightning once you're halfway to the stairs</strong>,
+        so the climb-and-stomp is no longer a gauntlet of bolts. Rescue <strong>Ford</strong> &amp;
+        <strong>Naomi</strong>. <em>(Data14 patch: Level 4's particle-collider budget tightened
+        from 4 tries to <strong>2</strong>.)</em></p>
+      <span class="play">▶ Play v13</span>
+    </a>
+
+    <a class="game" href="versions/v12/index.html">
+      <span class="tag proto">v12</span>
+      <h2>Levels 1–5 — Data12 deepens the MMB race</h2>
+      <p>Data12 patches <strong>Level 5</strong>. The phase-2 chase is now a real
+        <strong>1000m race</strong> — MMB runs beside you and roughly every so often flips on an
+        <strong>energy shield (lasts 10s)</strong>, so touching him while it's up hurts. And the giant
+        phase-3 finale finally tells you how to land the hit: <strong>climb the stairs</strong> that lead
+        up to MMB and <strong>stomp</strong> him through the lightning and crush slams. Rescue
+        <strong>Naomi</strong>.</p>
+      <span class="play">▶ Play v12</span>
+    </a>
+
+    <a class="game" href="versions/v11/index.html">
+      <span class="tag proto">v11</span>
+      <h2>Levels 1–5 — adds MMB + Apple King race</h2>
+      <p>Brand-new <strong>Level 5</strong> from Data11. MB finds <strong>MMB</strong> — Mecha-MB,
+        a metal copy of himself, 3000hp / 3 phases. Phase 1: colored-laser arena fight
+        (red/blue/silver/gold). Phase 2: <em>race</em> — MMB sprints to his creator the Apple King,
+        whose instakill laser wall chases you forward through spikes (no attacks allowed). Phase 3:
+        MMB returns <strong>giant</strong> with a weak-circle on his chest, lightning + crush slams.
+        Rescue <strong>Naomi</strong>.</p>
+      <span class="play">▶ Play v11</span>
+    </a>
+
+    <a class="game" href="versions/v10/index.html">
+      <span class="tag proto">v10</span>
+      <h2>Levels 1–4 — Data10 polish</h2>
+      <p>Data10 patches: L2 ladder climbs on Space, L4 phase 5 brief at 200hp (no lasers, "some"
+        fireballs), new 4-tries mechanic for the particle collider with boss-HP carryover.</p>
+      <span class="play">▶ Play v10</span>
+    </a>
+
+    <a class="game" href="versions/v9/index.html">
+      <span class="tag proto">v9</span>
+      <h2>Levels 1–4 — Data8/9</h2>
+      <p>L1 boss silenced, L4 silver/gold tier system, L4 phase-5 was the long lasers-+-bombs
+        finale. Superseded by v10 which trims the phase 5 down and adds 4 tries.</p>
+      <span class="play">▶ Play v9</span>
+    </a>
+
+    <a class="game" href="versions/v8/index.html">
+      <span class="tag proto">v8</span>
+      <h2>Levels 1–4 — added space level</h2>
+      <p>Introduced Level 4 (spaceship + particle colider boss + Maximillion) and Data7 patches
+        (R-peel in MB4, L2 acorn ladder). Superseded by v9's combat polish.</p>
+      <span class="play">▶ Play v8</span>
+    </a>
+
+    <a class="game" href="versions/v7/index.html">
+      <span class="tag proto">v7</span>
+      <h2>Levels 1–3 — Level Select</h2>
+      <p>All three earlier levels playable from one menu. L1 = MB4 act + 3D rescue. L2 = juniper
+        forest with 5 inspirations. L3 = pine forest with the hidden SAW secret.</p>
+      <span class="play">▶ Play v7</span>
+    </a>
+
+    <a class="game" href="versions/v6/index.html">
+      <span class="tag proto">v6</span>
+      <h2>Level 1 — All-2D MB4, then 3D rescue</h2>
+      <p>The Level-1 snapshot. Hipball + waves + boss all play inside the real MB4; the
+        Babylon scene only handles the portal-fly + rescue. Superseded by v7 which adds
+        L2 and L3.</p>
+      <span class="play">▶ Play v6</span>
+    </a>
+
+    <a class="game" href="versions/v5/index.html">
+      <span class="tag proto">v5</span>
+      <h2>Level 1 — Real MB4 Hipball → 3D Waves → Boss</h2>
+      <p>Hipball is the real MB4 mini-game (iframe), but the waves + boss were still fought in
+        the Babylon 3D world. Superseded by v6, which moves them into 2D MB4.</p>
+      <span class="play">▶ Play v5</span>
+    </a>
+
+    <a class="game" href="versions/v4/index.html">
+      <span class="tag proto">v4</span>
+      <h2>Level 1 — Hipball → Waves → Boss</h2>
+      <p>Full Level 1 flow with a Babylon-native side-view Hipball (not the real MB4
+        engine). Same melee / waves / boss as v5.</p>
+      <span class="play">▶ Play v4</span>
+    </a>
+
+    <a class="game" href="versions/v3/index.html">
+      <span class="tag proto">v3</span>
+      <h2>Level 1 — Hipball + Boss</h2>
+      <p>Hipball mini-game then straight to the boss fight (no enemy waves).
+        Peels still in. First to play with the side-view Hipball.</p>
+      <span class="play">▶ Play v3</span>
+    </a>
+
+    <a class="game" href="versions/v2/index.html">
+      <span class="tag proto">v2</span>
+      <h2>Level 1 — Court + Boss</h2>
+      <p>3D-only Level 1 on the Hipball-style court. Turn with W/D, camera behind MB.</p>
+      <span class="play">▶ Play v2</span>
+    </a>
+
+    <a class="game" href="versions/v1/index.html">
+      <span class="tag proto">v1</span>
+      <h2>Level 1 — Original</h2>
+      <p>First playable Level 1, with WASD-move + mouse-orbit-camera controls.</p>
+      <span class="play">▶ Play v1</span>
+    </a>
+
+    <a class="game" href="versions/v0/index.html">
+      <span class="tag proto">v0 · PROTOTYPE</span>
+      <h2>Movement Shakedown</h2>
+      <p>The very first prototype: a bare Babylon + Havok sandbox to test third-person
+        movement, jumping, a bouncy rubber ball, and the 40-sided look.</p>
+      <span class="play">▶ Play v0</span>
+    </a>
+  </div>
+
+  <footer>
+    Each version is frozen so we can see how the game grows.<br />
+    Built with Babylon.js · content from the MB4D design spreadsheet.
+  </footer>
+</body>
+</html>

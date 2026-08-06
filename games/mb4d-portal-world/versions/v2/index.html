@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <meta name="theme-color" content="#1a0820" />
+  <title>Mr. Bananagrams 4D — Level 1</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <canvas id="renderCanvas"></canvas>
+
+  <a id="home" href="../../index.html" title="Back to MB4D">🏠</a>
+
+  <!-- HUD -->
+  <div id="hud">
+    <div id="hpWrap">
+      <div id="hpBar"><div id="hpFill"></div></div>
+      <span id="hpText">50 / 50</span>
+    </div>
+    <div id="score">SCORE 0</div>
+  </div>
+
+  <div id="bossBar" class="hidden">
+    <div id="bossName"></div>
+    <div id="bossBarTrack"><div id="bossFill"></div></div>
+  </div>
+
+  <div id="banner" class="hidden"></div>
+  <div id="touch" class="hidden"></div>
+
+  <!-- Title -->
+  <div id="overlay-title" class="overlay">
+    <div class="card">
+      <div class="kicker">MR. BANANAGRAMS 4D · v2</div>
+      <h1>Level 1 — The Wonderful Bigining</h1>
+      <p class="blurb">Mr Bananagrams jumps through the purple portal and lands on a strange
+        ball court where everything has 40 sides. Fend off the fiery fruit, beat
+        <strong>portalprotector</strong>, then leap into the portal to rescue a trapped stray dog.</p>
+      <div class="controls">
+        <span><strong>W</strong> turn left · <strong>D</strong> turn right</span>
+        <span><strong>Space</strong> forward · <strong>↓</strong> back</span>
+        <span><strong>←/→</strong> strafe</span>
+        <span><strong>↑</strong> jump / double / triple</span>
+        <span><strong>X</strong> peel · <strong>E</strong> 5-peel blast</span>
+        <span class="cam">Camera follows behind MB</span>
+      </div>
+      <button id="startBtn" class="btn">START</button>
+      <p class="tip">Tip: jump on portalprotector's head to STOMP it, or pelt it with peels.</p>
+    </div>
+  </div>
+
+  <!-- Level complete -->
+  <div id="overlay-complete" class="overlay hidden">
+    <div class="card">
+      <div class="kicker">LEVEL 1 COMPLETE</div>
+      <h1>🐾 You rescued a stray!</h1>
+      <p class="blurb">More levels — and more dogs to save — are on the way.
+        Every dog you rescue tells you its story and a real fact about stray dogs.</p>
+      <p id="completeScore" class="score-final"></p>
+      <button id="replayBtn" class="btn">PLAY AGAIN</button>
+    </div>
+  </div>
+
+  <script src="https://cdn.babylonjs.com/babylon.js"></script>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

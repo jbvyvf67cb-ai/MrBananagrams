@@ -1,0 +1,169 @@
+:root {
+  --grape: #1a0820;
+  --portal: #9b6bff;
+  --banana: #fde375;
+}
+* { box-sizing: border-box; }
+html, body {
+  margin: 0; width: 100%; height: 100%; overflow: hidden;
+  background: var(--grape); color: #fff4e6;
+  font-family: 'Trebuchet MS', 'Segoe UI', system-ui, sans-serif;
+  user-select: none; -webkit-user-select: none;
+}
+#renderCanvas { width: 100vw; height: 100vh; display: block; touch-action: none; outline: none; }
+
+/* v5: MB4 / Hipball mini-game iframe overlays the Babylon canvas while the
+   match is in progress. Display:none via .hidden when not in use. */
+#mb4Frame {
+  position: fixed; inset: 0; width: 100vw; height: 100vh;
+  border: 0; background: #1a0820; z-index: 5;
+}
+
+#home {
+  position: absolute; top: 12px; right: 14px; z-index: 30;
+  font-size: 24px; text-decoration: none; opacity: 0.8;
+}
+#home:hover { opacity: 1; }
+
+/* ---------- HUD ---------- */
+#hud { position: absolute; top: 14px; left: 16px; z-index: 20; pointer-events: none; }
+#hpWrap { display: flex; align-items: center; gap: 8px; }
+#hpBar {
+  width: 240px; height: 22px; background: rgba(0,0,0,0.45);
+  border: 2px solid rgba(255,255,255,0.35); border-radius: 12px; overflow: hidden;
+}
+#hpFill { height: 100%; width: 100%; background: #6fcf5f; transition: width 0.18s ease, background 0.3s; }
+#hpText { font-weight: 700; font-size: 13px; text-shadow: 0 1px 3px #000; }
+#score {
+  margin-top: 8px; font-size: 18px; font-weight: 800; letter-spacing: 0.08em;
+  color: var(--banana); text-shadow: 0 2px 4px #000;
+}
+
+#rayas {
+  position: absolute; top: 14px; left: 50%; transform: translateX(-50%); z-index: 20;
+  background: rgba(26,8,32,0.75); border: 2px solid var(--banana); border-radius: 14px;
+  padding: 8px 18px; text-align: center; min-width: 240px;
+}
+.rayasLabel { font-size: 11px; letter-spacing: 0.18em; color: var(--banana); font-weight: 800; }
+.rayasScore { display: flex; justify-content: space-between; align-items: center; gap: 14px; margin-top: 4px; font-weight: 800; font-size: 16px; }
+.rayasSide.mb { color: #fde375; }
+.rayasSide.op { color: #f2a4a4; }
+.rayasSide span { font-size: 26px; padding: 0 6px; }
+.rayasVs { font-size: 12px; opacity: 0.6; font-weight: 600; }
+
+.controls-block { display: flex; flex-direction: column; gap: 8px; margin: 14px 0; font-size: 12px; }
+.ctrl-row { display: flex; flex-wrap: wrap; gap: 6px 12px; justify-content: center; align-items: center; opacity: 0.92; padding: 8px 10px; background: rgba(0,0,0,0.25); border-radius: 8px; }
+.ctrl-label { font-weight: 800; letter-spacing: 0.15em; color: var(--portal); font-size: 11px; margin-right: 6px; }
+.ctrl-row strong { color: var(--banana); }
+
+.touchset { display: flex; justify-content: space-between; align-items: flex-end; width: 100%; gap: 8px; }
+
+#bossBar { position: absolute; bottom: 26px; left: 50%; transform: translateX(-50%); z-index: 20; width: min(560px, 86vw); text-align: center; }
+#bossName { font-weight: 800; letter-spacing: 0.05em; text-shadow: 0 2px 4px #000; margin-bottom: 4px; font-size: 15px; word-break: break-word; }
+#bossBarTrack { height: 16px; background: rgba(0,0,0,0.5); border: 2px solid rgba(255,255,255,0.4); border-radius: 9px; overflow: hidden; }
+#bossFill { height: 100%; width: 100%; background: linear-gradient(90deg, #e2553d, #f2c14e); transition: width 0.15s; }
+
+#banner {
+  position: absolute; top: 16%; left: 50%; transform: translate(-50%, -10px);
+  z-index: 20; font-size: clamp(22px, 4.5vw, 40px); font-weight: 900; letter-spacing: 0.04em;
+  color: var(--banana); text-shadow: 0 3px 0 #6a3d00, 0 0 18px rgba(155,107,255,0.6);
+  text-align: center; opacity: 0; transition: opacity 0.3s, transform 0.3s; pointer-events: none; max-width: 90vw;
+}
+#banner.show { opacity: 1; transform: translate(-50%, 0); }
+.hidden { display: none !important; }
+
+/* ---------- Overlays ---------- */
+.overlay {
+  position: absolute; inset: 0; z-index: 40; display: flex; align-items: center; justify-content: center;
+  background: radial-gradient(circle at 50% 35%, rgba(60,30,90,0.85), rgba(10,4,16,0.94));
+  padding: 20px;
+}
+.card {
+  max-width: 540px; width: 100%; text-align: center;
+  background: rgba(26,8,32,0.85); border: 2px solid var(--portal);
+  border-radius: 18px; padding: 28px 26px; box-shadow: 0 0 40px rgba(155,107,255,0.4);
+}
+.kicker { color: var(--portal); font-weight: 800; letter-spacing: 0.2em; font-size: 12px; }
+.card h1 { margin: 8px 0 12px; font-size: clamp(22px, 4vw, 32px); color: var(--banana); }
+.blurb { font-size: 15px; line-height: 1.5; opacity: 0.92; }
+.controls { display: flex; flex-wrap: wrap; gap: 6px 14px; justify-content: center; margin: 16px 0; font-size: 13px; opacity: 0.9; }
+.controls strong { color: var(--banana); }
+.btn {
+  margin-top: 6px; padding: 12px 34px; font-size: 18px; font-weight: 800; letter-spacing: 0.08em;
+  color: #2a1006; background: var(--banana); border: none; border-radius: 12px; cursor: pointer;
+  box-shadow: 0 4px 0 #b8932f;
+}
+.btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #b8932f; }
+.tip { margin-top: 14px; font-size: 12px; opacity: 0.7; }
+.score-final { font-size: 20px; font-weight: 800; color: var(--banana); }
+
+/* ---------- v7 level-select grid ---------- */
+#overlay-select .card { max-width: 740px; }
+.level-grid {
+  display: grid; grid-template-columns: 1fr; gap: 10px; margin: 14px 0 6px;
+}
+@media (min-width: 720px) { .level-grid { grid-template-columns: 1fr 1fr 1fr; } }
+.level-btn {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 6px;
+  text-align: left; padding: 14px 14px;
+  background: rgba(40,16,60,0.85); color: #fff;
+  border: 2px solid rgba(155,107,255,0.6); border-radius: 14px;
+  cursor: pointer; transition: transform 0.12s, border-color 0.12s, background 0.12s;
+}
+.level-btn:hover { transform: translateY(-3px); border-color: var(--banana); background: rgba(60,28,90,0.92); }
+.lvl-tag  { font-size: 11px; font-weight: 800; letter-spacing: 0.16em; color: var(--portal); }
+.lvl-name { font-size: 17px; font-weight: 800; color: var(--banana); }
+.lvl-desc { font-size: 12px; line-height: 1.45; opacity: 0.92; }
+.lvl-meta { font-size: 11px; opacity: 0.7; }
+.btn-secondary {
+  background: rgba(155,107,255,0.35); color: #fff; box-shadow: 0 4px 0 #5b3aa8; margin-left: 8px;
+}
+.btn-secondary:active { box-shadow: 0 2px 0 #5b3aa8; }
+
+
+/* ---------- Touch controls (v2: turn pad + arrow pad + action stack) ---------- */
+#touch { position: absolute; inset: auto 0 0 0; z-index: 25; display: flex; justify-content: space-between; align-items: flex-end; padding: 0 18px 18px; pointer-events: none; gap: 8px; }
+.tturns { display: flex; flex-direction: column; gap: 6px; }
+.tpad { display: grid; grid-template-columns: repeat(3, 56px); grid-template-rows: repeat(2, 56px); gap: 6px; }
+.tpad .tbtn:nth-child(1) { grid-column: 2; }
+.tpad .tbtn:nth-child(2) { grid-column: 1; grid-row: 2; }
+.tpad .tbtn:nth-child(3) { grid-column: 3; grid-row: 2; }
+.tpad .tbtn:nth-child(4) { grid-column: 2; grid-row: 2; }
+.cam { opacity: 0.65; }
+.tacts { display: flex; align-items: flex-end; gap: 10px; }
+.tbtn {
+  pointer-events: auto; width: 56px; height: 56px; border-radius: 50%;
+  background: rgba(155,107,255,0.35); border: 2px solid rgba(255,255,255,0.5);
+  color: #fff; font-weight: 800; font-size: 13px; touch-action: none;
+}
+.tacts .tbtn { width: 66px; height: 66px; background: rgba(253,227,117,0.35); }
+.tbtn:active { background: rgba(255,255,255,0.6); }
+
+/* ---------- Dog rescue card ---------- */
+.dogcard-overlay {
+  position: absolute; inset: 0; z-index: 60; display: flex; align-items: center; justify-content: center;
+  background: rgba(8,4,14,0.0); transition: background 0.3s; padding: 20px;
+}
+.dogcard-overlay.show { background: rgba(8,4,14,0.8); }
+.dogcard {
+  max-width: 520px; width: 100%; text-align: center; transform: scale(0.85); opacity: 0; transition: transform 0.3s, opacity 0.3s;
+  background: linear-gradient(160deg, #2e1640, #1a0820); border: 3px solid var(--banana);
+  border-radius: 20px; padding: 26px 24px; box-shadow: 0 0 50px rgba(253,227,117,0.35);
+}
+.dogcard-overlay.show .dogcard { transform: scale(1); opacity: 1; }
+.dogcard-badge { color: var(--banana); font-weight: 900; letter-spacing: 0.15em; font-size: 14px; }
+.dogcard-avatar { font-size: 64px; margin: 6px 0; }
+.dogcard-name { margin: 0 0 6px; font-size: 26px; color: #fff; }
+.dogcard-meta { font-size: 16px; color: var(--portal); font-weight: 600; }
+.dogcard-desc { font-size: 14px; opacity: 0.85; margin: 4px 0 12px; }
+.dogcard-story { font-size: 16px; font-style: italic; line-height: 1.5; margin: 12px 0; }
+.dogcard-fact {
+  background: rgba(155,107,255,0.2); border: 1px solid var(--portal); border-radius: 12px;
+  padding: 12px 14px; font-size: 15px; line-height: 1.5; margin: 14px 0 18px;
+}
+.dogcard-fact-label { display: block; color: var(--banana); font-weight: 800; font-size: 12px; letter-spacing: 0.1em; margin-bottom: 4px; }
+.dogcard-btn {
+  padding: 10px 30px; font-size: 16px; font-weight: 800; color: #2a1006; background: var(--banana);
+  border: none; border-radius: 10px; cursor: pointer; box-shadow: 0 4px 0 #b8932f;
+}
+.dogcard-btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #b8932f; }

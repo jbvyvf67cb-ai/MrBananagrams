@@ -150,3 +150,9 @@ informational, not enforced.
   (MB1, MB3). See `games/mb3-golden-shovel/README.md` for engine notes.
 - `phaser-adventure` (planned, MB2) — top-down NPC-driven adventure with
   notebooks, sparks, world map. To be implemented.
+- `phaser-2.5d` (MB4) — Hipball: a rubber-ball court sport (see
+  `games/mb4-hipball/`).
+- `babylon-3d` (MB4D) — 3D Super-Mario-64-style platformer where every object
+  has 40+ sides; rescue stray dogs across five levels. The card opens a landing
+  page linking every frozen build (`v0`–`v15`); newest is playable at
+  `games/mb4d-portal-world/versions/v15/`.

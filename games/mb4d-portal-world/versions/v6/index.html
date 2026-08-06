@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <meta name="theme-color" content="#1a0820" />
+  <title>Mr. Bananagrams 4D — Level 1 (v6)</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <canvas id="renderCanvas"></canvas>
+
+  <!-- v6: the real MB4 game (embedded verbatim from MrBananagrams) now hosts
+       the WHOLE 2D portion of Level 1 — Hipball, 2 enemy waves, AND the
+       portalprotector boss fight. Babylon only takes over after MB jumps
+       through the blue portal, for the 3D arrival + Ford rescue. -->
+  <iframe id="mb4Frame" class="hidden" src="" title="MB4 — Hipball, waves & boss"></iframe>
+
+  <a id="home" href="../../index.html" title="Back to MB4D">🏠</a>
+
+  <!-- HUD -->
+  <div id="hud">
+    <div id="hpWrap">
+      <div id="hpBar"><div id="hpFill"></div></div>
+      <span id="hpText">50 / 50</span>
+    </div>
+    <div id="score">SCORE 0</div>
+  </div>
+
+  <div id="bossBar" class="hidden">
+    <div id="bossName"></div>
+    <div id="bossBarTrack"><div id="bossFill"></div></div>
+  </div>
+
+  <div id="rayas" class="hidden">
+    <div class="rayasLabel">HIPBALL · first to <span id="rayasTo">3</span></div>
+    <div class="rayasScore"><span class="rayasSide mb">MB <span id="rayasMb">0</span></span>
+      <span class="rayasVs">vs</span>
+      <span class="rayasSide op"><span id="rayasOp">0</span> Trainer</span></div>
+  </div>
+
+  <div id="banner" class="hidden"></div>
+  <div id="touch" class="hidden"></div>
+
+  <!-- Title -->
+  <div id="overlay-title" class="overlay">
+    <div class="card">
+      <div class="kicker">MR. BANANAGRAMS 4D · v6</div>
+      <h1>Level 1 — The Wonderful Bigining</h1>
+      <p class="blurb">It all happens in <strong>real MB4</strong>: first win a game of
+        <strong>Hipball</strong> against the trainer. Then <strong>two waves of fiery fruit</strong>
+        storm the court and you fight them <em>right there in the ball game</em> — crunch, slam, hip
+        and stomp. Clear them and <strong>portalprotector</strong> jumps out for a 2D boss brawl on
+        the court. Beat it, a <strong>blue portal</strong> opens, and MB dives through —
+        tumbling into the <strong>3D world</strong> to rescue <strong>Ford</strong> the stray.</p>
+      <div class="controls-block">
+        <div class="ctrl-row"><span class="ctrl-label">HIPBALL</span>
+          <span><strong>WASD</strong> move on court</span>
+          <span><strong>Space</strong> jump</span>
+          <span><strong>Z</strong> crunch · <strong>X</strong> slam · <strong>C</strong> hip (lob → hoop)</span>
+        </div>
+        <div class="ctrl-row"><span class="ctrl-label">FIGHT</span>
+          <span><strong>WASD / arrows</strong> move</span>
+          <span><strong>Space</strong> jump (tap×2 = double)</span>
+          <span>land on a head = <strong>stomp</strong> <em>(20)</em></span>
+        </div>
+        <div class="ctrl-row"><span class="ctrl-label">ATTACK</span>
+          <span><strong>Z</strong> crunch <em>(30)</em></span>
+          <span><strong>X</strong> slam <em>(32)</em></span>
+          <span><strong>C</strong> hip <em>(26)</em></span>
+        </div>
+      </div>
+      <button id="startBtn" class="btn">START</button>
+      <p class="tip">Hipball, both enemy waves, and the boss are all played in 2D MB4. The 3D world is for the rescue.</p>
+    </div>
+  </div>
+
+  <!-- Level complete -->
+  <div id="overlay-complete" class="overlay hidden">
+    <div class="card">
+      <div class="kicker">LEVEL 1 COMPLETE</div>
+      <h1>🐾 You rescued a stray!</h1>
+      <p class="blurb">More levels — and more dogs to save — are on the way.
+        Every dog you rescue tells you its story and a real fact about stray dogs.</p>
+      <p id="completeScore" class="score-final"></p>
+      <button id="replayBtn" class="btn">PLAY AGAIN</button>
+    </div>
+  </div>
+
+  <script src="https://cdn.babylonjs.com/babylon.js"></script>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

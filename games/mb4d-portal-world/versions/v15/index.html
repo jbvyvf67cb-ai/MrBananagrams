@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <meta name="theme-color" content="#1a0820" />
+  <title>Mr. Bananagrams 4D — Levels 1–3 (v7)</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <canvas id="renderCanvas"></canvas>
+
+  <!-- The real MB4 game (embedded verbatim from MrBananagrams). Used by
+       Level 1 for the whole 2D act (Hipball + waves + boss). Hidden the
+       rest of the time. -->
+  <iframe id="mb4Frame" class="hidden" src="" title="MB4 — 2D act for Level 1"></iframe>
+
+  <a id="home" href="../../index.html" title="Back to MB4D">🏠</a>
+
+  <!-- HUD -->
+  <div id="hud">
+    <div id="hpWrap">
+      <div id="hpBar"><div id="hpFill"></div></div>
+      <span id="hpText">50 / 50</span>
+    </div>
+    <div id="score">SCORE 0</div>
+  </div>
+
+  <div id="bossBar" class="hidden">
+    <div id="bossName"></div>
+    <div id="bossBarTrack"><div id="bossFill"></div></div>
+  </div>
+
+  <div id="rayas" class="hidden">
+    <div class="rayasLabel">HIPBALL · first to <span id="rayasTo">3</span></div>
+    <div class="rayasScore"><span class="rayasSide mb">MB <span id="rayasMb">0</span></span>
+      <span class="rayasVs">vs</span>
+      <span class="rayasSide op"><span id="rayasOp">0</span> Trainer</span></div>
+  </div>
+
+  <div id="banner" class="hidden"></div>
+  <div id="touch" class="hidden"></div>
+
+  <!-- Level select (the new title screen) -->
+  <div id="overlay-select" class="overlay">
+    <div class="card">
+      <div class="kicker">MR. BANANAGRAMS 4D · v15</div>
+      <h1>Pick a level</h1>
+      <div class="level-grid">
+        <button id="btn-l1" class="level-btn">
+          <span class="lvl-tag">LEVEL 1</span>
+          <span class="lvl-name">The Wonderful Bigining</span>
+          <span class="lvl-desc">Real MB4 Hipball → 2 enemy waves → boss → rescue <strong>Ford</strong>.
+            All-2D in MB4 except the rescue.</span>
+          <span class="lvl-meta">🦴 Ford  ·  Hipball + 2 waves + portalprotector</span>
+        </button>
+        <button id="btn-l2" class="level-btn">
+          <span class="lvl-tag">LEVEL 2</span>
+          <span class="lvl-name">Discombobulating Change</span>
+          <span class="lvl-desc">The game becomes 3D — juniper forest, 5 hidden inspirations,
+            2 waves, then the swirling <strong>discombobulating cloud</strong>. Rescue <strong>Luna</strong>.</span>
+          <span class="lvl-meta">🐕 Luna  ·  3D forest  ·  spikes + 5 inspirations</span>
+        </button>
+        <button id="btn-l3" class="level-btn">
+          <span class="lvl-tag">LEVEL 3</span>
+          <span class="lvl-name">After The Confusment...</span>
+          <span class="lvl-desc">Pine forest. 3 enemy waves, a 3-phase boss <strong>Baby Blue</strong>,
+            4 hidden inspirations + a <em>secret hidden saw</em> that gives 20000pt.
+            Rescue <strong>Lobo</strong>.</span>
+          <span class="lvl-meta">🐺 Lobo  ·  3D forest  ·  3 waves  ·  hidden SAW secret</span>
+        </button>
+        <button id="btn-l4" class="level-btn">
+          <span class="lvl-tag">LEVEL 4</span>
+          <span class="lvl-name">A New Fronter</span>
+          <span class="lvl-desc">Outer space. MB falls into the spaceship. Fight a button-press boss
+            (the <strong>particle colider</strong>, 3000hp / 5 phases). Phase 2 = 10 enemies, phase 3 = 10,
+            phase 4 = 20. Phase 5 kicks in at <strong>only 200hp</strong> — a brief desperate
+            finale with bombs and some fireballs (no lasers). <strong>2 tries</strong> before the
+            boss HP resets, so damage carries between deaths. Rare <strong>silver</strong>
+            (1/20, 2× stats) and <strong>gold</strong> (1/50, 5×) elites. Rescue <strong>Maximillion</strong>.</span>
+          <span class="lvl-meta">🐶 Maximillion · spaceship · 5-phase boss · 3000hp · 2 tries · rare silver/gold</span>
+        </button>
+        <button id="btn-l5" class="level-btn">
+          <span class="lvl-tag">LEVEL 5</span>
+          <span class="lvl-name">MMB</span>
+          <span class="lvl-desc">MB blows up the ship and meets <strong>MMB</strong> — Mecha-MB, an
+            exact metal copy. Three phases: laser arena fight (red/blue/silver/gold lasers),
+            then a <strong>1000m race</strong> where MMB runs beside you toward his creator the
+            <strong>Apple King</strong> and a wall of laser fire chases you through spikes — every so
+            often MMB flips on an <strong>energy shield (10s)</strong>, so don't touch him!
+            Finally MMB returns <strong>giant-sized</strong>: <strong>climb the stairs</strong> up to him and
+            <strong>STOMP</strong> through the lightning and crush slams. Rescue <strong>Naomi</strong>. No inspirations.</span>
+          <span class="lvl-meta">🐕 Naomi · MMB 3000hp · 3 phases · 1000m shield race · giant + stairs</span>
+        </button>
+      </div>
+
+      <div class="controls-block">
+        <div class="ctrl-row"><span class="ctrl-label">LEVEL 1</span>
+          <span>plays inside the real MB4 game (its own controls)</span>
+          <span><strong>Z</strong> crunch · <strong>X</strong> slam · <strong>C</strong> hip · <strong>R</strong> peel · <strong>Space</strong> jump</span>
+        </div>
+        <div class="ctrl-row"><span class="ctrl-label">3D LEVELS</span>
+          <span><strong>←/→</strong> turn MB</span>
+          <span><strong>↑/↓</strong> forward / back</span>
+          <span><strong>Space</strong> jump (tap×2 = double)</span>
+          <span><strong>Z</strong> crouch</span>
+        </div>
+        <div class="ctrl-row"><span class="ctrl-label">CAMERA</span>
+          <span><strong>WASD</strong> pan camera</span>
+          <span><strong>Q</strong> recenter behind MB</span>
+        </div>
+        <div class="ctrl-row"><span class="ctrl-label">ATTACK</span>
+          <span><strong>X</strong> throw a peel</span>
+          <span><strong>Space+Space</strong> then <strong>X</strong> = 5-peel special</span>
+          <span>jump on a head = <strong>stomp</strong> <em>(20)</em></span>
+        </div>
+      </div>
+      <p class="tip">Inspirations are bright orbs scattered through each level — touch them for points.
+        Spikes hurt; jump or walk around them. The hidden SAW in L3 is somewhere off the main path.
+        In L2 the tallest tree now has a ladder — hold ↑ or Space to climb (Data10).
+        In L4, walk onto the green button after wave 1 — it auto-presses after a beat
+        (or tap R / X / Space / Enter to press it immediately).</p>
+    </div>
+  </div>
+
+  <!-- Level complete -->
+  <div id="overlay-complete" class="overlay hidden">
+    <div class="card">
+      <div id="completeTitle" class="kicker">LEVEL COMPLETE</div>
+      <h1>🐾 You rescued a stray!</h1>
+      <p class="blurb">Every dog you rescue tells you its story and a real fact about strays.</p>
+      <p id="completeScore" class="score-final"></p>
+      <button id="btn-back-select" class="btn">LEVEL SELECT</button>
+      <button id="replayBtn" class="btn btn-secondary">REPLAY</button>
+    </div>
+  </div>
+
+  <script src="https://cdn.babylonjs.com/babylon.js"></script>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

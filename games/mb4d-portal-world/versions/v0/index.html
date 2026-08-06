@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <meta name="theme-color" content="#1a0820" />
+  <title>Mr. Bananagrams 4D — Prototype</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <canvas id="renderCanvas"></canvas>
+
+  <a id="home" href="../../index.html" title="Back to MB4D" style="position:absolute;top:12px;right:14px;z-index:30;font-size:24px;text-decoration:none;opacity:0.8;">🏠</a>
+
+  <div id="hud">
+    <div class="title">MB4D — Prototype</div>
+    <div class="controls">
+      <strong>WASD / Arrows</strong> move &nbsp;·&nbsp;
+      <strong>Space</strong> jump &nbsp;·&nbsp;
+      <strong>Mouse drag</strong> orbit camera &nbsp;·&nbsp;
+      <strong>Wheel</strong> zoom
+    </div>
+    <div id="status">Loading Havok physics…</div>
+  </div>
+
+  <script src="https://cdn.babylonjs.com/babylon.js"></script>
+  <script src="https://cdn.babylonjs.com/havok/HavokPhysics_umd.js"></script>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
